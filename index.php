@@ -38,6 +38,21 @@
 				
 					if (mysqli_num_rows($result_set) == 1) {
 						// valid user found
+						$user = mysqli_fetch_assoc($result_set);
+						$_SESSION['user_id'] = $user['id'];
+						$_SESSION['first_name'] = $user['first_name'];
+
+						//updating last logging
+						$query = "UPDATE user SET last_login = NOW() ";
+						$query .= "WHERE id = {$_SESSION['user_id']} LIMIT 1" ;
+
+						$result_set = mysqli_query($connection, $query);
+
+						if (!$result_set) {
+							 die("Database query failed");
+						}
+					
+
 						// redirect to users.php
 						header('Location: users.php');
 
@@ -73,8 +88,15 @@
 					if (isset($errors) && !empty($errors)) {
 						echo '<p class="error">Invalid Username / Password </p>';
 					}
-				
 				?>
+
+
+				<?php
+					if (isset($_GET['logout'])) {
+						echo '<p class="infor">you have succesfully logged out from the system </p>';
+					}
+				?>
+
 
 				<p>
 					<label for="">Username:</label>

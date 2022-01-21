@@ -1,1 +1,19 @@
 hello world
+
+C:\wamp64\bin\php\php7.4.26\php
+
+
+Instructions
+Download php_xdebug-3.1.2-7.4-vc15-x86_64.dll
+Move the downloaded file to , and rename it to php_xdebug.dll
+Update C:\wamp64\bin\apache\apache2.4.51\bin\php.ini and add the line:
+zend_extension = xdebug
+Please also update php.ini files in adjacent directories, as your system seems to be configured with a separate php.ini file for the web server and command line.
+Restart the Apache Webserver
+
+set PATH=%PATH%;C:\wamp64\bin\php\php7.4.26\php.exe
+
+
+{
+  "php.validate.executablePath": "c:/wamp64/bin/php/php7.4.26/php.exe"
+}

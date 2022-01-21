@@ -1,11 +1,25 @@
+* {
+    margin: 0;
+}
+
 body{
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .login{
     width: 350px;
     margin: 100px auto;
+}
+
+p {
+    margin-bottom: 15px;
+}
+
+p.infor {
+    background: green;
+    color: white;
+    padding: 10px;
 }
 
 p.error {
@@ -29,5 +43,63 @@ button{
     width: 100%;
     padding: 5px;
     box-sizing: border-box;
+
+}
+
+header{
+    background: rgb(224, 218, 218);
+    overflow: auto;
+    padding: 10px;
+}
+
+header .appname{
+    float: left;
+}
+
+header .loggedin{
+    float: right;
+}
+
+main {
+    width: 1000px;
+    margin: 30px auto;
+}
+
+main h1 {
+    margin-bottom: 20px;
+    font-size: 50px;
+}
+
+main h1 span {
+    font-size: 20px;
+}
+
+table.masterlist{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table.masterlist th {
+    background: #aaa;
+    text-align: left;
+}
+
+table.masterlist th, table.masterlist td {
+    padding: 10px;
+    border-bottom: 1px solid #aaa;
+}
+
+form.userform label {
+    width: 30%;
+    float: left;
+}
+
+form.userform input {
+    width: 60%;
+}
+
+form.userform button {
+    width: 20%;
+    float: space-between;
 
 }
