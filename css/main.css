@@ -103,3 +103,7 @@ form.userform button {
     float: space-between;
 
 }
+
+.errmsg{
+    margin: 20px;
+}
