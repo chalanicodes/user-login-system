@@ -10,3 +10,13 @@ set PATH=%PATH%;C:\wamp64\bin\php\php7.4.26\php.exe
 }
 
 git push --set-upstream https://github.com/chalanicodes/user-login-system.git master
+
+
+mouse click + alt
+
+go back 
+  ctrl + C
+
+how to select a word and multiple lines with matching word 
+
+  ctrl + shift + L

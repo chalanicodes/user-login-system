@@ -1,5 +1,6 @@
 <?php session_start(); ?>
 <?php require_once('inc/connection.php'); ?>
+<?php require_once('inc/functions.php'); ?>
 <?php 
 
 	// check for form submission
@@ -18,7 +19,7 @@
 
 		}
 
-		// check if there any errors in the form
+		// check if there are any errors in the form
 		if (empty($errors)) {
 				// save username and password into variables
 				$email 		= mysqli_real_escape_string($connection, $_POST['email']);
@@ -33,8 +34,8 @@
 
 				$result_set = mysqli_query($connection, $query);
 
-				if ($result_set) {
-					// query succesful
+			verify_query($result_set);
+					
 				
 					if (mysqli_num_rows($result_set) == 1) {
 						// valid user found
@@ -42,31 +43,28 @@
 						$_SESSION['user_id'] = $user['id'];
 						$_SESSION['first_name'] = $user['first_name'];
 
-						//updating last logging
+				// updating last login
 						$query = "UPDATE user SET last_login = NOW() ";
 						$query .= "WHERE id = {$_SESSION['user_id']} LIMIT 1" ;
 
 						$result_set = mysqli_query($connection, $query);
 
-						if (!$result_set) {
-							 die("Database query failed");
-						}
+				verify_query($result_set);
+							
 					
 
 						// redirect to users.php
 						header('Location: users.php');
 
 					} else {
-						//user namd and password ivalid
+				// user name and password invalid
 						$errors[] = 'Invalid Username / Password';
-					}
-
-				} else { 
-
-					$errors[] = 'Database query failed';
-				}
+					
+					
+				
 			}
 		}
+	}
 
 ?>
 <!DOCTYPE html>
@@ -93,7 +91,7 @@
 
 				<?php
 					if (isset($_GET['logout'])) {
-						echo '<p class="infor">you have succesfully logged out from the system </p>';
+						echo '<p class="info">You have successfully logged out from the system</p>';
 					}
 				?>
 

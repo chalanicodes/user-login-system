@@ -2,12 +2,22 @@
 <?php require_once('inc/connection.php'); ?>
 <?php require_once('inc/functions.php'); ?>
 <?php
+	
 
     $errors = array();
+    $first_name = ''; 
+    $last_name = ''; 
+    $email = ''; 
+    $password = '';
 
     if (isset($_POST['submit'])) {
+        $first_name = $_POST['first_name']; 
+        $last_name = $_POST['last_name']; 
+        $email = $_POST['email']; 
+        $password = $_POST['password'];
 
-        // checking requied fields
+
+        // checking required fields
         $req_fields = array('first_name' , 'last_name' , 'email' , 'password');
 
         foreach ($req_fields as $field){
@@ -25,15 +35,59 @@
             }    
         }
 
-        //checking email address
+        
+        // checking email address
          
         if(!is_email($_POST['email'])){
             $errors [] = 'Email address is invalid.';
 
         }
 
+        // checking if email address already exists
+        $email = mysqli_real_escape_string($connection, $_POST['email']);
+        $query = "SELECT * FROM user WHERE email = '{$email}' LIMIT 1";
+
+        $result_set = mysqli_query($connection, $query);
+
+        if ($result_set) {
+            if (mysqli_num_rows($result_set) ==1) {
+                $errors[] = 'Email address already exists';
+
+            }
+        }
+
+        if (empty($errors)) {
+            // no errors found... adding new record
+            $first_name = mysqli_real_escape_string($connection, $_POST['first_name']);
+            $last_name = mysqli_real_escape_string($connection, $_POST['last_name']);
+            $password = mysqli_real_escape_string($connection, $_POST['password']);
+            // email address is already sanitized
+           // get the current time from a php function which return current date and time.  
+
+            $hashed_password = sha1($password); 
+
+            $query = "INSERT INTO user ( ";
+            $query .= " first_name, last_name, email, password, last_login ,is_deleted";
+            $query .= ") VALUES (";
+            $query .= "'{$first_name}', '{$last_name}', '{$email}', '{$hashed_password}', NOW(), 0";
+            $query .= ")";
+
+           // echo $query;
+           // die();
+
+            $result = mysqli_query($connection, $query);
+
+            if ($result) {
+                // query successful... redirecting to users page
+                header('Location: users.php?user_added=true');
+            } else {
+                $errors[] = 'Failed to add the new record.';
+            }
+        }
+
 
     }
+
 
 ?>
 
@@ -47,7 +101,7 @@
 <body>
     <header>
         <div class="appname">User Management System</div>
-        <div class="loggedin">Welcome <?php echo $_SESSION['first_name']; ?> <a href="logout.php">Log Out</a> </div>
+        <div class="loggedin">Welcome <?php echo $_SESSION['first_name']; ?>! <a href="logout.php">Log Out</a></div>
     </header>
     <main>
         <h1>Add New User<span><a href="users.php"> < Back to User List</a></span></h1>
@@ -58,7 +112,7 @@
                 echo '<div class="errmsg">';
                 echo '<b>There were error(s) on your form.</b><br>'; 
                 foreach ($errors as $error) {
-                    echo $error . '<br>';
+                    echo '- ' . $error . '<br>';
                 }
                 echo '</div>';
             }
@@ -69,17 +123,17 @@
 
             <p>
                 <label for=""> First Name: </label>
-                <input type="text" name="first_name">
+                <input type="text" name="first_name" <?php echo 'value="' . $first_name . '"'; ?>>
             </p>
 
             <p>
                 <label for=""> Last Name: </label>
-                <input type="text" name="last_name">
+                <input type="text" name="last_name" <?php echo 'value="' . $last_name . '"'; ?>>
             </p>
 
             <p>
                 <label for=""> Email Address: </label>
-                <input type="email" name="email">
+                <input type="text" name="email" <?php echo 'value="' . $email . '"'; ?>>
             </p>
 
             <p>

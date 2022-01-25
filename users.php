@@ -10,7 +10,7 @@
     $user_list = '';
 
     // getting the list of users
-    $query = "SELECT * FROM `user` WHERE is_deleted=0 ORDER BY first_name";
+	$query = "SELECT * FROM user WHERE is_deleted=0 ORDER BY first_name";
     $users = mysqli_query($connection, $query);
 
     // database connection using "Functions.php"
@@ -22,7 +22,7 @@
         $user_list .="<td>{$user['last_name']}</td>";
         $user_list .="<td>{$user['last_login']}</td>";
         $user_list .="<td><a href=\"modify-user.php?user_id={$user['id']}\">Edit</a></td>";
-        $user_list .="<td><a href=\"delet-user.php?user_id={$user['id']}\">Delete</a></td>";
+		$user_list .= "<td><a href=\"delete-user.php?user_id={$user['id']}\">Delete</a></td>";
         $user_list .="</tr>";
     }         
 ?>
@@ -37,7 +37,7 @@
 <body>
     <header>
         <div class="appname">User Management System</div>
-        <div class="loggedin">Welcome <?php echo $_SESSION['first_name']; ?> <a href="logout.php">Log Out</a> </div>
+		<div class="loggedin">Welcome <?php echo $_SESSION['first_name']; ?>! <a href="logout.php">Log Out</a></div>
     </header>
     <main>
         <h1>Users <span><a href="add-user.php">+ Add New</a></span></h1>
