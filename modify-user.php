@@ -13,6 +13,31 @@
     $last_name = ''; 
     $email = ''; 
     $password = '';
+    
+    if (isset($_GET['user_id'])) {
+        // getting the user information
+        $user_id = mysqli_real_escape_string($connection, $_GET['user_id']);
+        $query = "SELECT * FROM user WHERE id ={$user_id} LIMIT 1";
+
+        $result_set = mysqli_query($connection, $query);
+
+        if ($result_set) {
+            if (mysqli_num_rows($result_set) ==1) {
+                // user found
+                $result = mysqli_fetch_assoc($result_set);
+                $first_name = $result['first_name']; 
+                $last_name = $result['last_name']; 
+                $email = $result['email']; 
+               
+            } else {
+                // user not found
+                header('Location: users.php?err=user_not_found');
+            }
+        } else {
+            //  query unsuccessful
+            header('Location: users.php?err=query_failed');
+        }
+    }
 
     if (isset($_POST['submit'])) {
         $first_name = $_POST['first_name']; 
@@ -102,7 +127,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Add New User</title>
+    <title>Viwe / Modify User</title>
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
@@ -111,7 +136,7 @@
         <div class="loggedin">Welcome <?php echo $_SESSION['first_name']; ?>! <a href="logout.php">Log Out</a></div>
     </header>
     <main>
-        <h1>Add New User<span><a href="users.php"> < Back to User List</a></span></h1>
+        <h1>Viwe / Modify User<span><a href="users.php"> < Back to User List</a></span></h1>
 
         <?php 
         
@@ -127,7 +152,7 @@
         
          ?>
 
-        <form action="add-user.php" method="POST" class="userform">
+        <form action="modify-user.php" method="POST" class="userform">
 
             <p>
                 <label for=""> First Name: </label>

@@ -22,6 +22,10 @@ p.infor {
     padding: 10px;
 }
 
+div.errmsg{
+    color: rgb(223, 11, 11);
+}
+
 p.error {
     background: rgb(187, 10, 10);
     color: white;
